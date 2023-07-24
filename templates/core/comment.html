@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block title %}Comment Section{% endblock title %}
+{% block content %}
+<br>
+{% if comment %}
+<div class=" p-5 ml-5 text-white xl:w-[20rem] sm:w-[10rem] overflow-x-hidden h-30" style="overflow-y: visible;">
+     {% for items in comment %}
+     <p class="p-1 bg-gray-500 rounded-md mb-2">
+     <b>@{{ items.username }}</b>
+     {{ items.body }}
+     <br><i> {{ items.created_at }}</i>
+{% endfor %}</p>
+</div>  
+{% endif %}
+<form action="." method="post" class="p-10 mt-15">
+     <div class="bg-gray-100 p-5 w-auto shadow-2xl">
+     {% csrf_token %}
+     <label>Username: </label><br>
+     {{ form.username }} <br><br>
+     <label>Comment: </label><br>
+     {{ form.body }} <br><br>
+     
+     <div class="border-gray-500 text-red-600">
+          {% if form.errors or form.non_field_errors %}
+               {% for field in form %}
+                 {{ field.errors }}
+               {% endfor %}
+               {{ form.non_field_errors}}
+               <br>
+          {% endif %}
+     </div>
+     
+          <button type="submit" class="rounded-md text-white bg-yellow-500 hover:bg-gray-500 p-1">Send</button>
+</form>
+</div>
+{% endblock content %}

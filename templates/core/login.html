@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Sign In{% endblock title %}
+{% block content %}
+<form action="." method="post" class="p-10 mt-15 mb-20">
+     <div class="bg-gray-100 py-5 px-6 w-auto shadow-2xl mt-5 mb-10">
+     {% csrf_token %}
+     <p><marquee behavior="" direction="" class="text-sm">Only Users who paid through the Programming Class 2023 group can access this website</marquee></p>
+     <label>Username: </label><br>
+     {{ form.username }} <br><br>
+     <label>Password: </label><br>
+     {{ form.password }} <br><br>
+     
+     <div class="border-gray-500 text-red-600">
+          {% if form.errors or form.non_field_errors %}
+               {% for field in form %}
+                 {{ field.errors }}
+               {% endfor %}
+               {{ form.non_field_errors}}
+               <br>
+          {% endif %}
+     </div>
+     
+          <button type="submit" class="rounded-md text-white bg-yellow-500 hover:bg-gray-500 p-1">Sign In</button>
+     </div>
+</form>
+{% endblock content %}

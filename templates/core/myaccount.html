@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block title %}Account Settings{% endblock title %}
+{% block content %}
+<div class="py-12 px-3 mb-40">
+<h1 class="border-b">Account settings for "<b>{{ user }}</b>"</h1>
+<br>
+<h1 class="mb-2">Logout for "<b>{{ user }}</b>"</h1>
+<a href="/logout/" class="text-xs text-white bg-yellow-600 font-normal rounded-md p-1 hover:text-grey hover:bg-gray-500">Logout</a>
+<br><br>
+<h1 class="mb-2">Change Password for "<b>{{ user }}</b>"</h1>
+<a href="/changepassword/" class="text-xs  text-white bg-yellow-600 font-normal rounded-md p-1 hover:text-grey hover:bg-gray-500">Change Password</a>
+<div class="border-t mt-12"></div>
+</div>
+{% endblock content %}
