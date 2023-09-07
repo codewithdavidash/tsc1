@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block title %}
+{{ users.username }}
+{% endblock title %}
+{% block content %}
+<div class="py-12 items-center justify-center flex">
+    <form action="" method="post" class="bg-gray-600 p-5 rounded-xl">
+        <p>
+            Are you sure you want to delete " {{ users.username }} "
+        </p><br>
+        <button type=" submit" class="text-center bg-red-600 text-white p-2 rounded-xl w-[15rem] xl:w-[18rem]">
+            Delete</button>
+    </form>
+</div>
+{% endblock content %}

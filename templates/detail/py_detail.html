@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block title %}
+{{ py.title }}
+{% endblock title %}
+{% block content %}
+<div class="py-12 items-center justify-center flex">
+    <div>
+        <iframe src="{{ py.video }}" frameborder="0"></iframe>
+        <p class="mt-4 text-center p-1 shadow bg-gray-700 rounded-lg">{{ py.title }}</p>
+        {% if py.description %}
+        <p class="mt-2 text-center p-1 shadow bg-gray-700 rounded-lg">Description: <br>{{ py.description }}</p>
+        {% endif %}
+        <p class="mt-2 text-center p-1 shadow bg-gray-700 rounded-lg">Date Uploaded: <br>
+            {{ py.created_at | timesince }} ago</p>
+    </div>
+</div>
+{% endblock content %}

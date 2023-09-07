@@ -1,130 +1,86 @@
-from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
-from .forms import SignupForm, LoginForm
-from .models import HTML, JS, PYTHON, Comment, Assignments
-from .forms import *
+from django.contrib.auth.models import User
+from django.contrib import messages
+from .forms import RegisterForm
+from django.db.models import Q
+from .models import (
+    HTML_CSS,
+    JavaScript,
+    Python
+)
 
 
 @login_required
 def index(request):
-    html = HTML.objects.all()
-    js = JS.objects.all()
-    python = PYTHON.objects.all()
-    a = Assignments.objects.all()[0:9]
-    return render(request, 'core/index.html', {
-        'html': html,
+    html_css = HTML_CSS.objects.all()[0:6]
+    js = JavaScript.objects.all()[0:6]
+    py = Python.objects.all()[0:6]
+    context = {
+        'html_css': html_css,
         'js': js,
-        'python': python,
-        'a': a
-    })
+        'py': py,
+    }
+    return render(request, 'core/index.html', context)
 
-def signup(request):
+
+def register(request):
     if request.method == 'POST':
-        form = SignupForm(request.POST)
+        form = RegisterForm(request.POST)
         if form.is_valid():
             form.save()
+            user = form.cleaned_data.get('username')
+            messages.success(request, 'Account was successfully created for '+ user)
             return redirect('/login/')
     else:
-        form = SignupForm()
-    return render(request, 'core/signup.html', {
+        form = RegisterForm()
+    context = {
         'form': form
-    })
-
-def login(request):
-    form = LoginForm()
-    return render(request, 'core/login.html', {
-        'form': form
-    })
+    }
+    return render(request, 'core/register.html', context)
 
 @login_required
-def myaccount(request):
-    return render(request, 'core/myaccount.html', {})
+def search(request):
+    query = request.GET.get('query', '')
+    html_css = HTML_CSS.objects.all()
+    js = JavaScript.objects.all()
+    py = Python.objects.all()
+    if query:
+        html_css = html_css.filter(Q(title__icontains=query) | Q(description__icontains=query))
+        js = js.filter(Q(title__icontains=query) | Q(description__icontains=query))
+        py = py.filter(Q(title__icontains=query) | Q(description__icontains=query))
+    context = {
+        'query': query,
+        'html_css': html_css,
+        'js': js,
+        'py': py,
+    }
+    return render(request, 'core/search.html', context)
 
 @login_required
-def changepassword(request):
-    return render(request, 'core/changepassword.html', {})
+def menu(request):
+    context = {}
+    return render(request, 'core/menu.html', context)
 
-def info(request):
-    return render(request, 'core/info.html', {})
+@login_required
+def delete_accounts(request):
+    users = User.objects.all()
+    context = {
+        'users': users
+    }
+    return render(request, 'core/delete_accounts.html', context)
+
+@login_required
+def user_accounts(request, id):
+    users = User.objects.get(id=id)
+    if request.method == 'POST':
+        users.delete()
+        return redirect('/delete_accounts/')
+    context = {
+        'users': users
+    }
+    return render(request, 'core/user_accounts.html', context)
 
 def terms_and_conditions(request):
-    return render(request, 'core/terms_and_conditions.html', {})
-
-@login_required
-def add(request):
-    return render(request, 'core/add.html', {
-    })
-
-@login_required
-def add_html_videos(request):
-    if request.method == 'POST':
-        form = htmlForm(request.POST, request.FILES)
-        if form.is_valid():
-            new_data = form.save()
-            new_data.save()
-            return redirect('/')
-    else:
-        form = htmlForm()
-    return render(request, 'core/add_html_videos.html', {
-        'form': form
-    })
-
-@login_required
-def add_js_videos(request):
-    if request.method == 'POST':
-        form = jsForm(request.POST, request.FILES)
-        if form.is_valid():
-            new_data = form.save()
-            new_data.save()
-            return redirect('/')
-    else:
-        form = jsForm()
-    return render(request, 'core/add_js_videos.html', {
-        'form': form
-    })
-
-@login_required
-def add_python_videos(request):
-    if request.method == 'POST':
-        form = pythonForm(request.POST, request.FILES)
-        if form.is_valid():
-            new_data = form.save(commit=False)
-            new_data.save()
-            return redirect('/')
-    else:
-        form = pythonForm()
-    return render(request, 'core/add_python_videos.html', {
-        'form': form
-    })
-
-@login_required
-def comment(request):
-    if request.method == 'POST':
-        form = CommentForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('/comment/')
-    else:
-        form = CommentForm()
-    comment = Comment.objects.all()
-    return render(request, 'core/comment.html', {
-    'comment': comment,
-    'form': form
-    })
-
-@login_required
-def submit_assignments(request):
-    if request.method == 'POST':
-        form = AssignmentsForm(request.POST, request.FILES)
-        if form.is_valid():
-            new_data = form.save(commit=False)
-            new_data.save()
-            messages.success(request, 'Your Assignment was submitted successfully')
-            return redirect('/')
-    else:
-        form = AssignmentsForm()
-    
-    return render(request, 'core/submit_assignments.html', {
-        'form': form
-    })
+    context = {}
+    return render(request, 'core/terms_and_conditions.html', context)

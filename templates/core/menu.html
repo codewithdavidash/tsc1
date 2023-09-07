@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block title %}
+Menu
+{% endblock title %}
+{% block content %}
+{% if request.user.is_authenticated %}
+{% if request.user.is_staff %}
+<div class="py-12 items-center justify-center flex">
+    <div class="bg-gray-600 p-10 rounded-xl">
+        <a href="/changepassword/"
+            class=" bg-gray-700 p-5 rounded-xl text-yellow-600 w-[15rem] xl:w-[18rem] hover:underline">
+            Change Password for "{{ request.user.username }}"
+            <br>
+        </a><br><br>
+        <a href="/logout/" class=" bg-gray-700 p-5 rounded-xl text-yellow-600 w-[15rem] xl:w-[18rem] hover:underline">
+            Logout
+        </a>
+        <br><br><br>
+        <a href="/delete_accounts/"
+            class=" bg-gray-700 p-5 rounded-xl text-yellow-600 w-[15rem] xl:w-[18rem] hover:underline">
+            Delete User Accounts
+            <br>
+        </a>
+    </div>
+</div>
+{% else %}
+<div class="py-12 items-center justify-center flex">
+    <div class="bg-gray-600 p-10 rounded-xl">
+        <a href="/changepassword/"
+            class=" bg-gray-700 p-5 rounded-xl text-yellow-600 w-[15rem] xl:w-[18rem] hover:underline">
+            Change Password for "{{ request.user.username }}"
+            <br>
+        </a><br><br>
+        <a href="/logout/" class=" bg-gray-700 p-5 rounded-xl text-yellow-600 w-[15rem] xl:w-[18rem] hover:underline">
+            Logout
+        </a>
+        <br><br>
+    </div>
+</div>
+
+{% endif %}
+{% else %}
+{% endif %}
+{% endblock content %}

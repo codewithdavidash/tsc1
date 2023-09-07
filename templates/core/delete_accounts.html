@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block title %}
+Menu
+{% endblock title %}
+{% block content %}
+<div class="py-12 items-center justify-center flex">
+    <div class="bg-gray-600 p-10 rounded-xl w-[15rem] xl:w-[18rem]" style="height: 200px; overflow-y: scroll;">
+        <p class="text-yellow-600">Users:</p><br>
+        {% for people in users %}
+        <a href="{% url 'user_accounts' people.id %}" class="p-2 bg-gray-700 rounded-xl text-center">
+            {{ people.username}}</a><br><br>
+        {% endfor %}
+    </div>
+</div>
+{% endblock content %}

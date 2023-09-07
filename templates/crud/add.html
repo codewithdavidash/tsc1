@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block title %}
+Add Videos Links
+{% endblock title %}
+
+{% block content %}
+<div class="py-12 items-center justify-center flex">
+    <div>
+        <a href="{% url 'create_html_css' %}" class="text-white hover:bg-red-700 bg-red-600 text-center p-3">HTML & CSS
+            Videos</a><br><br>
+        <a href="{% url 'create_js' %}" class="text-white hover:bg-green-700 bg-green-600 text-center p-3">Java Script
+            Videos</a><br><br>
+        <a href="{% url 'create_py' %}" class="text-white hover:bg-blue-700 bg-blue-600 text-center p-3">Python
+            Videos</a><br><br>
+    </div>
+</div>
+{% endblock content %}
